@@ -5,14 +5,19 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import React from "react"
-import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import { AccordionNav } from '@theme-ui/sidenav';
+import { graphql, Link, useStaticQuery } from "gatsby";
+import PropTypes from "prop-types";
+import React from "react";
+import Header from "./header";
+// import "./layout.css";
+// import { jsx } from 'theme-ui'
+import Links from './SideNavLinks.mdx';
 
-import Header from "./header"
-import "./layout.css"
 
-const Layout = ({ children }) => {
+
+
+const Layout = ({ props, children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -25,7 +30,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
+      <Header siteTitle={data.site.siteMetadata.title} />  
       <div
         style={{
           margin: `0 auto`,
@@ -33,6 +38,15 @@ const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
+        
+          <Links
+            {...props}
+            components={{
+              wrapper: AccordionNav,
+              a: props => <Link to={props.href}>{props.children}</Link>
+            }}
+          />
+         
         <main>{children}</main>
         <footer>
           © {new Date().getFullYear()}, Built with
